@@ -1,0 +1,91 @@
+public class Nota
+{
+    private String titulo;
+    private String texto;
+    public Nota(String ti,String te){
+        titulo=ti;
+        texto=te;
+    }
+
+    public String getitulo(){
+        return titulo;
+    }
+
+    public void setitulo(String t){
+        titulo=t;
+    }
+
+    public String getexto(){
+        return texto;
+    }
+
+    public void setexto(String t){
+        texto=t;
+    }
+
+    public String toString (String [] args){
+        return "\nTitulo: "+titulo+"\n"+texto+"\n";
+    }
+}
+
+import java.util.Queue;
+import java.util.LinkedList;
+import javax.swing.JOptionPane;
+import java.util.Vector;
+public class BuscarNota
+{
+    private static Queue<String> buscarTitulo(Vector<Nota> notas, String dato)
+    {
+        Queue<String> q=new LinkedList<>();
+        for(Nota nota: notas)
+            if(nota.getitulo().toUpperCase().contains(dato.toUpperCase()))
+                q.add("\n"+nota.getitulo()+"\n"+nota.getexto()+"\n");
+        return q;
+    }
+
+    private static Queue<String> buscarTexto(Vector<Nota> notas, String dato)
+    {
+        Queue<String> q=new LinkedList<>();
+        for(Nota nota: notas)
+            if(nota.getexto().toUpperCase().contains(dato.toUpperCase()))
+                q.add("\n"+nota.getitulo()+"\n"+nota.getexto()+"\n");
+        return q;
+    }
+
+    public static void main(String [] args)
+    {
+        Vector<Nota> bn= new Vector();
+        int i=0,caso;
+        while(i==0){
+            caso=0;
+            while(caso==0){
+                try{
+                    caso=Integer.parseInt(JOptionPane.showInputDialog("Opciones\n1:Agregar Nota\n2:Eliminar\n3:Buscar pot Titulo\n4"+
+                            "Buscar por Texto\n5:Salir"));
+                }catch(NumberFormatException miExcepcion){}
+            }
+            switch(caso){
+                case 1:
+                bn.add(new Nota(JOptionPane.showInputDialog("Titulo de Nota"),JOptionPane.showInputDialog("Texto")));
+                break;
+                case 2:
+                String eli=JOptionPane.showInputDialog("Eliminar nota con titulo:");
+                for(int t=0;t<bn.size();t++)
+                    if(bn.get(t).getitulo().toUpperCase().contains(eli.toUpperCase()))
+                        bn.remove(t);
+
+                break;
+
+                case 3:
+                System.out.println(buscarTitulo(bn,JOptionPane.showInputDialog("Buscar Notas que contengan en el Titulo:")));
+                break;
+                case 4:
+                System.out.println(buscarTexto(bn,JOptionPane.showInputDialog("Buscar Notas que contengan en el Texto:")));
+                break;
+                case 5:
+                i++;
+                break;
+            }
+        }
+    }
+}
